@@ -25,3 +25,9 @@ class Potion(Item):
         self.val = val 
         self.potency = potency
     
+class Jewel(Item):
+    def __init__(self,name="Jewel",wgt=1,val=100,potency=1):
+        self.name = name
+        self.wgt = wgt 
+        self.val = val 
+        self.potency = potency

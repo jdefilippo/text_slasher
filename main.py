@@ -1,4 +1,4 @@
-from Item import Coin, Bread, Potion
+from Item import Coin, Bread, Potion, Jewel
 from Person import Peasant, Bandit, Trader
 from Room import *
 
@@ -41,7 +41,6 @@ def makeMove(curPos):
 
 ### Persons
 p = Peasant()
-p.printStats()
 
 b1 = Bandit()
 b2 = Bandit()
@@ -52,21 +51,32 @@ t1 = Trader()
 coin1 = Coin()
 coin2 = Coin()
 coin3 = Coin()
+
 bread1 = Bread()
+bread2 = Bread()
+bread3 = Bread()
+bread4 = Bread()
+bread5 = Bread()
 
 potion1 = Potion()
+
+jewel = Jewel()
 
 p.addInventory(coin1)
 p.addInventory(coin2)
 p.addInventory(bread1)
-p.addInventory(potion1)
+#p.printInventorySimple()
+#p.addInventory(potion1)
 
+t1.addInventory(bread1)
+t1.addInventory(potion1)
+t1.addInventory(bread3)
+t1.addInventory(jewel)
 
-t1.addInventory(bread1)
-t1.addInventory(bread1)
-t1.addInventory(bread1)
-t1.addInventory(bread1)
-t1.addInventory(bread1)
+#t1.printInventorySimple()
+
+#t1.addInventory(bread4)
+#t1.addInventory(bread5)
 
 
 ### Locations
