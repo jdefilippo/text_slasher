@@ -31,3 +31,17 @@ class Jewel(Item):
         self.wgt = wgt 
         self.val = val 
         self.potency = potency
+
+class Club(Item):
+    def __init__(self,name="Club",wgt=1,val=15,modifier=1.3):
+        self.name = name
+        self.wgt = wgt 
+        self.val = val 
+        self.modifier = modifier
+
+class BronzeSword(Item):
+    def __init__(self,name="BronzeSword",wgt=1,val=20,modifier=1.7):
+        self.name = name
+        self.wgt = wgt 
+        self.val = val         
+        self.modifier = modifier

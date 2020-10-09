@@ -3,7 +3,7 @@ import numpy as np
 from prettytable import PrettyTable
 
 class Person: 
-    def __init__(self, name="Van Eycke", hp=1, maxHp=1, strength=0,inventory={}, curWgt=0, maxWgt=0, wealth=10): 
+    def __init__(self, name="Van Eycke", hp=1, maxHp=1, strength=0,inventory={}, curWgt=0, maxWgt=0, wealth=10, weapon=None): 
         self.name = name
         self.hp = hp
         self.maxHp = maxHp
@@ -12,6 +12,21 @@ class Person:
         self.curWgt    = curWgt
         self.maxWgt    = maxWgt
         self.wealth    = wealth
+        self.weapon    = weapon
+
+    def equipWeapon(self, weapon):
+        if self.weapon == None: 
+            self.weapon = weapon
+        else:
+            self.addInventory(self.weapon) 
+            self.weapon = weapon
+
+    def unequipWeapon(self):
+        if self.weapon == None:
+            return 
+        else:
+            self.addInventory(self.weapon) 
+            self.weapon = None
 
     def getHp(self):
         return self.hp 
@@ -78,16 +93,21 @@ class Person:
             for i in self.inventory:
                 x.add_row([i,self.inventory[i][0], self.inventory[i][1].wgt, self.inventory[i][1].val])
             print(x)
-            choice = input("Do you want to use (U) or drop an item (D)? Otherwise, to quit the dialogue and return to the game, press Q. ")
-            while(choice != "U" and choice != "D" and choice != "Q"):
-                choice = input("Do you want to use (U) or drop an item (D)? Otherwise, to quit the dialogue and return to the game, press Q. ")
+            #choice = input("Do you want to use (U) or drop an item (D)? Otherwise, to quit the dialogue and return to the game, press Q. ")
+            choice = ""
+            while(choice != "U" and choice != "D" and choice != "Q" and choice != "E"):
+                choice = input("Do you want to use (U), equip (E), or drop an item (D)? Otherwise, to quit the dialogue and return to the game, press Q. ")
             if choice == "U": 
                 itemName = input("Which item would you like to use? Enter the item name. ")
                 if itemName in self.inventory and hasattr(self.inventory[itemName][1], 'potency') and self.inventory[itemName][1].potency > 0: 
                     self.heal(self.inventory[itemName][1].potency)     
                     self.removeItem(itemName) 
                 else:
-                    print("Item cannot be used.")             
+                    print("Item cannot be used.")    
+            elif choice == "E":
+                itemName = input("Which weapon would you like to equip? Enter the weapon name. ")
+                if itemName in self.inventory and hasattr(self.inventory[itemName][1], 'modifier'): 
+                    self.equipWeapon(self.inventory[itemName][1])
             elif choice == "D":
                 itemName = input("Which item would you like to drop? Enter the item name. ")
                 if itemName in self.inventory: 
@@ -99,7 +119,7 @@ class Person:
         print("{} has {} remaining hitpoints".format(self.name, self.hp))
 
 class Peasant(Person): 
-    def __init__(self,name="Joe", hp=50,maxHp=50,strength=10,inventory={}, maxCarry=3, curWgt=0, maxWgt=10, money=20 ):
+    def __init__(self,name="Joe", hp=50,maxHp=50,strength=10,inventory={}, maxCarry=3, curWgt=0, maxWgt=10, money=20, weapon=None ):
         self.name   = name 
         self.hp     = hp 
         self.maxHp  = maxHp
@@ -109,6 +129,7 @@ class Peasant(Person):
         self.curWgt    = curWgt
         self.maxWgt    = maxWgt
         self.money     = money
+        self.weapon    = weapon
 
     def encounterTrader(self,trader):
         choice = input("Would you like to meet with the Trader? (Y|N) ") 
@@ -142,17 +163,7 @@ class Peasant(Person):
                     trader.printInventorySimple("Trader")
                 else:
                     print("Item too expensive.")
-                    
-
-
-            #    if choice not in trader.inventory:
-            #        print("Item is not in Trader's inventory")
-            #    choice = input("Enter the name of item you would like to buy. Otherwise quit (Q).")          
-            #print("The trader wanders off. ")
-            #return 
-
-
-                
+                                 
 
 
 
@@ -168,7 +179,10 @@ class Peasant(Person):
             heroTurn = False
         while(enemy.getHp() > 0 and self.getHp() > 0):
             if heroTurn: 
-                damage = np.random.rand() * self.getStrength()
+                if self.weapon == None: 
+                    damage = np.random.rand() * self.getStrength()
+                else:
+                   damage = np.random.rand() * self.getStrength() * self.weapon.modifier 
                 print("You ( hp =", self.getHp(), ") take a swing at the intruder ( hp =", enemy.getHp(), "), exacting", int(damage), "damage.")
                 enemy.setHp(int(enemy.getHp() - damage))
                 heroTurn = False

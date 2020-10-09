@@ -1,5 +1,5 @@
-from Item import Coin, Bread, Potion, Jewel
-from Person import Peasant, Bandit, Trader
+from Item import *
+from Person import *
 from Room import *
 
 def getDescription(curPos): 
@@ -73,6 +73,14 @@ t1.addInventory(potion1)
 t1.addInventory(bread3)
 t1.addInventory(jewel)
 
+
+bSword = BronzeSword()
+p.addInventory(bSword)
+
+#p.equipWeapon(bSword)
+#p.unequipWeapon()
+
+
 #t1.printInventorySimple()
 
 #t1.addInventory(bread4)
@@ -121,15 +129,20 @@ goldPath.setNorth(southPath)
 
 
 curLoc = home 
+prevLoc = None
 while(1): 
     # Fight enemies 
     # Pick up things 
     # Get a description 
     # Make a move
     #print(home.getEast())
-    print(curLoc.getDescription())
-    p.processEncounters(curLoc)    
+    if(prevLoc != curLoc):
+       print(curLoc.getDescription())
+    p.processEncounters(curLoc)
+
+    prevLoc = curLoc
     curLoc = makeMove(curLoc)
+    
       
     #getDescription(curLoc)
     #fightEnemies(curLoc)
