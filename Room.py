@@ -1,6 +1,8 @@
 
+
+
 class Room: 
-    def __init__(self,north=None, south=None, east=None, west=None, desc="", inventory=[], occupants=[]): 
+    def __init__(self,north=None, south=None, east=None, west=None, desc="", inventory=[], occupants=[], blocked=True): 
         self.north = north 
         self.south = south 
         self.east  = east 
@@ -8,6 +10,8 @@ class Room:
         self.desc  = "" 
         self.inventory = inventory
         self.occupants = occupants
+        self.blocked = blocked
+
 
     def setDescription(self,desc):
         self.desc = desc
@@ -32,6 +36,8 @@ class Room:
         self.inventory = inventory
     def getInventory(self):
         return self.inventory
+    def addInventory(self,item):
+        self.inventory.append(item)
         
     def getNorth(self):
         return self.north 

@@ -210,6 +210,29 @@ class Peasant(Person):
         curLoc.setOccupants([])
 
 
+    def processEncounters(self, curLoc):
+
+        for occupant in curLoc.getOccupants():
+            if occupant.name == "Bandit":
+                self.fightEnemy(occupant)
+            elif occupant.name == "Trader":
+                self.encounterTrader(occupant)
+
+        
+        # Ensure that you do not see the same people again
+        curLoc.setOccupants([])
+    
+    def gatherResources(self,curLoc):
+        for resource in curLoc.getInventory():
+            choice = ""
+            while(choice != "Y" and choice != "N"):
+                print("Found ", resource.name, "!")
+                choice = input("Do you want to pick up this item? (Y|N) ")
+            if choice == "Y":
+                self.addInventory(resource)
+            else:
+                pass
+
 class Bandit(Person): 
     def __init__(self, name="Bandit", hp=25,strength=7):
         self.name = name 
